@@ -17,11 +17,13 @@ var api = (function () {
     }
 
     function padNumber(number) {
-        var out, i;
+        var out, i, originalLength;
         out = number.toString();
-        for (i = 0; i < 5 - out.length; i += 1) {
+        originalLength = out.length;
+        for (i = 0; i < 5 - originalLength; i += 1) {
             out = "0" + out;
         }
+        console.log(out);
         return out;
     }
 
