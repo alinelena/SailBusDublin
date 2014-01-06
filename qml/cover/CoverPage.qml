@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
+    id: coverPage
     function successStop() {
         var length = (Qt.dublinBusState.getStopData().length > 5 ? 5 : Qt.dublinBusState.getStopData().length),
             index = 0,

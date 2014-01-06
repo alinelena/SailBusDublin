@@ -5,11 +5,13 @@ import "../state.js" as StateLogic
 Page {
     function successRoute() {
         Qt.dublinBusState = StateLogic.state;
+        Qt.dublinBusState.stopOpenedByRoute = true;
         pageStack.push(Qt.resolvedUrl("Route.qml"));
     }
 
     function successStop() {
         Qt.dublinBusState = StateLogic.state;
+        Qt.dublinBusState.stopOpenedByRoute = false;
         pageStack.push(Qt.resolvedUrl("Stop.qml"));
     }
 

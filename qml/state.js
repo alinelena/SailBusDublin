@@ -4,7 +4,8 @@ var state = (function() {
     var stops = [],
         stop = undefined,
         stopData = undefined,
-        routeNumber = undefined;
+        routeNumber = undefined,
+        stopOpenedByRoute = false;
 
     function openRoute(number, changePageCallback, error) {
         console.log("openRoute");
@@ -75,6 +76,15 @@ var state = (function() {
         }
     }
 
+    function getStopLocation() {
+        for (var i = 0; i < stops.length; i += 1) {
+            if (stops[i].number === stop) {
+                return stops[i].location;
+            }
+        }
+        return false;
+    }
+
     return {
         openRoute: openRoute,
         sortRoute: sortRoute,
@@ -85,6 +95,7 @@ var state = (function() {
         getCurrentRoute: getCurrentRoute,
         getCurrentStop: getCurrentStop,
         getStopData: getStopData,
-        getBusString: getBusString
+        getBusString: getBusString,
+        getStopLocation: getStopLocation
     };
 }());

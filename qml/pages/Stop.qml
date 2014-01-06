@@ -6,6 +6,28 @@ Page {
     id: page
     SilicaListView {
         id: listView
+        PullDownMenu {
+            MenuItem {
+                text: "Refresh"
+                onClicked: {
+                    Qt.dublinBusState.openStop(Qt.dublinBusState.getCurrentStop(), function () {
+                        pageStack.replace(Qt.resolvedUrl("Stop.qml"));
+                    }, function() {
+                        console.log("Error")
+                    });
+                }
+            }
+            MenuItem {
+                text: "Open Location"
+                onClicked: {
+                    var loc = Qt.dublinBusState.getStopLocation();
+                    if (loc) {
+                        Qt.openUrlExternally("geo:" + loc);
+                    }
+                }
+                visible: Qt.dublinBusState.stopOpenedByRoute
+            }
+        }
         model: Qt.dublinBusState.getStopData().length
         anchors.fill: parent
         header: PageHeader {

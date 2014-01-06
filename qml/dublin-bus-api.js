@@ -102,6 +102,6 @@ var api = (function () {
 
     return {
         getRouteData: getRouteData,
-        getStopData: getStopData
+        getStopData: getStopData,
     };
 }());
