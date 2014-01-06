@@ -13,6 +13,24 @@ Page {
     }
     SilicaListView {
         id: listView
+
+        PullDownMenu {
+            MenuItem {
+                text: "Sort by Name"
+                onClicked: {
+                    Qt.dublinBusState.sortRoute(false);
+                    pageStack.replace(Qt.resolvedUrl("Route.qml"));
+                }
+            }
+            MenuItem {
+                text: "Sort by Number"
+                onClicked: {
+                    Qt.dublinBusState.sortRoute(true);
+                    pageStack.replace(Qt.resolvedUrl("Route.qml"));
+                }
+            }
+        }
+
         model: Qt.dublinBusState.getNumberOfStops()
         anchors.fill: parent
         header: PageHeader {

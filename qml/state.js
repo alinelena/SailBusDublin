@@ -54,8 +54,30 @@ var state = (function() {
         return bus.route + " - " + bus.destination + " - " + bus.time + " min"
     }
 
+    //sortRoute:
+    //  synchronous function which sorts the current route in the state
+    //  input boolean numberRatherThanPlace:
+    //  true will sort By StopNumber
+    //  false will sort by Named Location
+    function sortRoute(numberRatherThanPlace) {
+        if (numberRatherThanPlace) {
+            stops.sort(function (a, b) {return a.number - b.number});
+        } else {
+            stops.sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                } else if(b.name > a.name) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+        }
+    }
+
     return {
         openRoute: openRoute,
+        sortRoute: sortRoute,
         getNumberOfStops: getNumberOfStops,
         getNthStopOnRouteString: getNthStopOnRouteString,
         openStop: openStop,
