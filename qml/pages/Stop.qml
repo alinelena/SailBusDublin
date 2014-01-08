@@ -4,16 +4,27 @@ import Sailfish.Silica 1.0
 
 Page {
     id: page
+    property bool loading: false
+
+    BusyIndicator {
+        anchors.centerIn: parent
+        running: page.loading
+        visible: page.loading
+    }
+
     SilicaListView {
         id: listView
         PullDownMenu {
             MenuItem {
                 text: "Refresh"
                 onClicked: {
+                    page.loading = true;
                     Qt.dublinBusState.openStop(Qt.dublinBusState.getCurrentStop(), function () {
+                        page.loading = false;
                         pageStack.replace(Qt.resolvedUrl("Stop.qml"));
                     }, function() {
-                        console.log("Error")
+                        page.loading = false;
+                        console.log("Error");
                     });
                 }
             }

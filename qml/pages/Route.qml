@@ -4,16 +4,26 @@ import Sailfish.Silica 1.0
 
 Page {
     id: page
+    property bool loading: false
     function successStop() {
+        page.loading = false;
         pageStack.push(Qt.resolvedUrl("Stop.qml"));
     }
 
     function error() {
+        page.loading = false;
         console.log("Error");
     }
+
+    BusyIndicator {
+        anchors.centerIn: parent
+        running: page.loading
+        visible: page.loading
+    }
+
     SilicaListView {
         id: listView
-
+        visible: !page.loading
         PullDownMenu {
             MenuItem {
                 text: "Sort by Name"
@@ -45,8 +55,11 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
-            onClicked: Qt.dublinBusState.openStopOnRoute(index, successStop, error)
-        }
+            onClicked: {
+                page.loading = true;
+                Qt.dublinBusState.openStopOnRoute(index, successStop, error);
+            }
         VerticalScrollDecorator {}
+        }
     }
 }
