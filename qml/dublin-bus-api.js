@@ -16,92 +16,63 @@ var api = (function () {
         request.send(null);
     }
 
-    function padNumber(number) {
-        var out, i, originalLength;
-        out = number.toString();
-        originalLength = out.length;
-        for (i = 0; i < 5 - originalLength; i += 1) {
-            out = "0" + out;
-        }
-        console.log(out);
-        return out;
-    }
-
-    function checkedBuses(buses) {
-        var i = 0;
-        for (i = 0; i < buses.length; i += 1) {
-            if (buses[i].time < 0) {
-                buses.splice(i, 1);
-            }
-        }
-        if (buses.length > 0) {
-            return true;
-        }
-        return false;
-    }
-
     function getStopData(number, callback, errorCallback) {
-        networkCall("http://rtpi.ie/Text/WebDisplay.aspx?stopRef=" + padNumber(number),
-        function (reponse) {
-            var table, i, rows, buses, time, timerow;
-            table = reponse.match(/<table(\s|\S)+\/table>/);
-            if (table && table.length > 1) {
-                rows = table[0].split("</tr>");
-                buses = [];
-                time = new Date();
-                for (i = 0; i < rows.length - 1; i += 1) {
-                    if (i !== 0) {
-                        if (rows[i].split("</td>")[2].match(/\d+:\d+/) === null) {
-                            buses.push({
-                                route: rows[i].match(/\d+/)[0],
-                                destination: rows[i].split("</td>")[1].replace(/<td[^>]+>/, ""),
-                                time: rows[i].split("</td>")[2].match(/\d+/)[0]
-                            });
-                        } else {
-                            timerow = rows[i].split("</td>")[2].match(/\d+:\d+/)[0].split(":");
-                            buses.push({
-                                route: rows[i].match(/\d+/)[0],
-                                destination: rows[i].split("</td>")[1].replace(/<td[^>]+>/, ""),
-                                time: (parseInt(timerow[0], 10) * 60 + parseInt(timerow[1], 10)) - (time.getHours() * 60 + time.getMinutes())
-                            });
-                        }
-                    }
+        networkCall("http://192.168.1.66:4567/bus/stop/" + number,
+        function (response) {
+            var responseJSON = JSON.parse(response);
+            console.log(responseJSON.errorcode);
+            if(responseJSON.errorcode === "0") {
+                var buses = [];
+                for(var i = 0; i< responseJSON.results.length; i+=1) {
+                    buses.push({
+                        time: responseJSON.results[i].duetime,
+                        destination: responseJSON.results[i].destination,
+                        route: responseJSON.results[i].route
+                    });
                 }
-                if (checkedBuses(buses)) {
-                    callback(buses);
-                } else {
-                    errorCallback();
-                }
+                callback(buses);
             } else {
-                errorCallback();
+                errorCallback(responseJSON.errormessage);
             }
         }, errorCallback);
     }
 
-    function grabNumber(href) {
-        var matching = href.match(/\/\d+/)[0];
-        return parseInt(matching.replace(/\/[0]+/, ""), 10);
+    function getStopLoc(number, callback, errorCallback) {
+        networkCall("http://192.168.1.66:4567/location/stop/" + number,
+        function (response) {
+            var responseJSON = JSON.parse(response);
+            console.log(responseJSON.errorcode);
+            if(responseJSON.errorcode === "0") {
+                if(responseJSON.results && responseJSON.results.length > 0) {
+                    var stopInfo = responseJSON.results[0];
+                    callback(stopInfo.latitude + "," + stopInfo.longitude);
+                }
+            } else {
+                errorCallback(responseJSON.errormessage);
+            }
+        }, errorCallback);
     }
 
     function getRouteData(number, callback, errorCallback) {
-        var url = "http://dublinbus-api.heroku.com/stops?routes=" + number;
-        if (routeCache[url] === undefined) {
-            networkCall(url, function(response) {
-                var data = JSON.parse(response).data,
-                    i = 0;
-                for (i = 0; i < data.length; i += 1) {
-                    data[i].number = grabNumber(data[i].href);
-                }
-                routeCache[url] = data;
-                callback(data);
-            }, errorCallback);
-        } else {
-            callback(routeCache[url]);
-        }
+        networkCall("http://192.168.1.66:4567/bus/route/" + number,
+        function (response) {
+            var responseJSON = JSON.parse(response);
+            console.log(responseJSON.errorcode);
+            if(responseJSON.errorcode === "0") {
+                //TODO: Hack to get it to work with current state API need UI to deal with both directions
+                var stops = responseJSON.results[0].stops.map(function (el) {
+                    return {"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.longitude};
+                });
+                callback(stops);
+            } else {
+                errorCallback(responseJSON.errormessage);
+            }
+        }, errorCallback);
     }
 
     return {
         getRouteData: getRouteData,
         getStopData: getStopData,
+        getStopLoc: getStopLoc
     };
 }());
