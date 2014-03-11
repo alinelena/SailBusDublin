@@ -1,6 +1,7 @@
 var api = (function () {
     "use strict";
-    var routeCache = {};
+    var routeCache = {},
+        apiBase = "";
     function networkCall(url, callback, errorcallback) {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -17,7 +18,7 @@ var api = (function () {
     }
 
     function getStopData(number, callback, errorCallback) {
-        networkCall("http://192.168.1.66:4567/bus/stop/" + number,
+        networkCall(apiBase + "/bus/stop/" + number,
         function (response) {
             var responseJSON = JSON.parse(response);
             console.log(responseJSON.errorcode);
@@ -38,7 +39,7 @@ var api = (function () {
     }
 
     function getStopLoc(number, callback, errorCallback) {
-        networkCall("http://192.168.1.66:4567/location/stop/" + number,
+        networkCall(apiBase + "/location/stop/" + number,
         function (response) {
             var responseJSON = JSON.parse(response);
             console.log(responseJSON.errorcode);
@@ -54,7 +55,8 @@ var api = (function () {
     }
 
     function getRouteData(number, callback, errorCallback) {
-        networkCall("http://192.168.1.66:4567/bus/route/" + number,
+        if(!routeCache[number]) {
+        networkCall(apiBase + "/bus/route/" + number,
         function (response) {
             var responseJSON = JSON.parse(response);
             console.log(responseJSON.errorcode);
@@ -63,11 +65,15 @@ var api = (function () {
                 var stops = responseJSON.results[0].stops.map(function (el) {
                     return {"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.longitude};
                 });
+                routeCache[number] = stops;
                 callback(stops);
             } else {
                 errorCallback(responseJSON.errormessage);
             }
         }, errorCallback);
+        } else {
+            callback(routeCache[number]);
+        }
     }
 
     return {
