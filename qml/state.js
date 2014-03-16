@@ -1,5 +1,14 @@
 .import "dublin-bus-api.js" as DublinBus
 
+/*
+* Copyright (c) 2014 Shane Quigley
+*
+* This software is MIT licensed see link for details
+* http://www.opensource.org/licenses/MIT
+*
+* @author Shane Quigley
+*/
+
 var state = (function() {
     var stops = [],
         stop = undefined,

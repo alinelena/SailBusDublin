@@ -1,7 +1,16 @@
+/*
+* Copyright (c) 2014 Shane Quigley
+*
+* This software is MIT licensed see link for details
+* http://www.opensource.org/licenses/MIT
+*
+* @author Shane Quigley
+*/
+
 var api = (function () {
     "use strict";
     var routeCache = {},
-        apiBase = "";
+        apiBase = "http://188.226.169.32:4567";
     function networkCall(url, callback, errorcallback) {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -63,7 +72,7 @@ var api = (function () {
             if(responseJSON.errorcode === "0") {
                 //TODO: Hack to get it to work with current state API need UI to deal with both directions
                 var stops = responseJSON.results[0].stops.map(function (el) {
-                    return {"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.longitude};
+                    return {"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.long};
                 });
                 routeCache[number] = stops;
                 callback(stops);
