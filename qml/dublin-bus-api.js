@@ -10,7 +10,7 @@
 var api = (function () {
     "use strict";
     var routeCache = {},
-        apiBase = "http://188.226.169.32:4567";
+        apiBase = "";
     function networkCall(url, callback, errorcallback) {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
