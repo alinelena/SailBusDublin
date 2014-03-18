@@ -6,21 +6,23 @@
 #         - desktop icon filename must be changed
 #         - desktop filename must be changed
 #         - icon definition filename in desktop file must be changed
-TARGET = SailBusDublin
+TARGET = harbour-sailbusdublin
 
 CONFIG += sailfishapp
 
-SOURCES += src/SailBusDublin.cpp
+SOURCES += \
+    src/harbour-sailbusdublin.cpp
 
-OTHER_FILES += qml/SailBusDublin.qml \
+OTHER_FILES += \
     qml/cover/CoverPage.qml \
-    rpm/SailBusDublin.spec \
-    rpm/SailBusDublin.yaml \
-    SailBusDublin.desktop \
     qml/dublin-bus-api.js \
     qml/state.js \
     qml/pages/EnterNumber.qml \
     qml/pages/Route.qml \
-    SailBusDublin.png \
-    qml/pages/Stop.qml
+    qml/pages/Stop.qml \
+    rpm/harbour-sailbusdublin.yaml \
+    rpm/harbour-sailbusdublin.spec \
+    harbour-sailbusdublin.desktop \
+    harbour-sailbusdublin.png \
+    qml/harbour-sailbusdublin.qml
 

@@ -60,7 +60,7 @@ var api = (function () {
             } else {
                 errorCallback(responseJSON.errormessage);
             }
-        }, errorCallback);
+        }, errorstrictCallback);
     }
 
     function getRouteData(number, callback, errorCallback) {
@@ -71,8 +71,11 @@ var api = (function () {
             console.log(responseJSON.errorcode);
             if(responseJSON.errorcode === "0") {
                 //TODO: Hack to get it to work with current state API need UI to deal with both directions
-                var stops = responseJSON.results[0].stops.map(function (el) {
-                    return {"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.long};
+                var stops = [];
+                responseJSON.results.forEach(function (el) {
+                    el.stops.forEach(function (el) {
+                        stops.push({"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.long});
+                    });
                 });
                 routeCache[number] = stops;
                 callback(stops);

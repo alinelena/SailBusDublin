@@ -1,0 +1,32 @@
+Name: harbour-sailbusdublin
+Summary: SailBusDublin
+Version: 0.1
+Release: 1
+Group: Qt/Qt
+URL: http://example.org/
+License: 'MIT'
+Sources:
+- '%{name}-%{version}.tar.bz2'
+Description: |-
+  Application to track buses in Dublin, Ireland in real time.
+
+  Can track buses by stop number or look up the stops on a route in order to find the stop you want to track the buses on.
+Configure: none
+Builder: qtc5
+PkgConfigBR:
+- Qt5Quick
+- Qt5Qml
+- Qt5Core
+- sailfishapp >= 0.0.10
+Requires:
+- sailfishsilica-qt5 >= 0.10.9
+Files:
+- '%{_bindir}'
+- '%{_datadir}/%{name}/qml'
+- '%{_datadir}/applications/%{name}.desktop'
+- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
+- /usr/bin
+- /usr/share/harbour-sailbusdublin
+- /usr/share/applications
+- /usr/share/icons/hicolor/86x86/apps
+PkgBR: []
