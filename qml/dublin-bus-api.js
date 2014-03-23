@@ -74,7 +74,7 @@ var api = (function () {
                 var stops = [];
                 responseJSON.results.forEach(function (el) {
                     el.stops.forEach(function (el) {
-                        stops.push({"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.long});
+                        stops.push({"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.longitude});
                     });
                 });
                 routeCache[number] = stops;
