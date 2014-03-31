@@ -61,7 +61,7 @@ var state = (function() {
 
     function getBusString(i) {
         var bus = stopData[i];
-        return bus.route + " - " + bus.destination + " - " + bus.time + " min"
+        return bus.route + " - " + bus.destination + " - " + (bus.time !== "Due" ? bus.time + " min" : bus.time);
     }
 
     //sortRoute:
