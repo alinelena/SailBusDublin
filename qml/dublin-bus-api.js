@@ -7,6 +7,8 @@
 * @author Shane Quigley
 */
 
+/*jslint browser: true, devel: true, white: true */
+
 var api = (function () {
     "use strict";
     var routeCache = {},
@@ -29,11 +31,12 @@ var api = (function () {
     function getStopData(number, callback, errorCallback) {
         networkCall(apiBase + "/bus/stop/" + number,
         function (response) {
-            var responseJSON = JSON.parse(response);
+            var responseJSON = JSON.parse(response),
+                buses = [],
+                i = 0;
             console.log(responseJSON.errorcode);
             if(responseJSON.errorcode === "0") {
-                var buses = [];
-                for(var i = 0; i< responseJSON.results.length; i+=1) {
+                for(i = 0; i< responseJSON.results.length; i+=1) {
                     buses.push({
                         time: responseJSON.results[i].duetime,
                         destination: responseJSON.results[i].destination,
@@ -50,28 +53,28 @@ var api = (function () {
     function getStopLoc(number, callback, errorCallback) {
         networkCall(apiBase + "/location/stop/" + number,
         function (response) {
-            var responseJSON = JSON.parse(response);
+            var responseJSON = JSON.parse(response),
+                stopInfo;
             console.log(responseJSON.errorcode);
             if(responseJSON.errorcode === "0") {
                 if(responseJSON.results && responseJSON.results.length > 0) {
-                    var stopInfo = responseJSON.results[0];
+                    stopInfo = responseJSON.results[0];
                     callback(stopInfo.latitude + "," + stopInfo.longitude);
                 }
             } else {
                 errorCallback(responseJSON.errormessage);
             }
-        }, errorstrictCallback);
+        }, errorCallback);
     }
 
     function getRouteData(number, callback, errorCallback) {
         if(!routeCache[number]) {
         networkCall(apiBase + "/bus/route/" + number,
         function (response) {
-            var responseJSON = JSON.parse(response);
+            var responseJSON = JSON.parse(response),
+                stops = [];
             console.log(responseJSON.errorcode);
             if(responseJSON.errorcode === "0") {
-                //TODO: Hack to get it to work with current state API need UI to deal with both directions
-                var stops = [];
                 responseJSON.results.forEach(function (el) {
                     el.stops.forEach(function (el) {
                         stops.push({"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.longitude});

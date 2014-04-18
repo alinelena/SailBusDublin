@@ -9,12 +9,13 @@
 * @author Shane Quigley
 */
 
+/*global DublinBus: false*/
+/*jslint devel: true, white: true*/
+
 var state = (function() {
+    "use strict";
     var stops = [],
-        stop = undefined,
-        stopData = undefined,
-        routeNumber = undefined,
-        stopOpenedByRoute = false;
+        stop, stopData, routeNumber;
 
     function openRoute(number, changePageCallback, error) {
         console.log("openRoute");
@@ -71,25 +72,24 @@ var state = (function() {
     //  false will sort by Named Location
     function sortRoute(numberRatherThanPlace) {
         if (numberRatherThanPlace) {
-            stops.sort(function (a, b) {return a.number - b.number});
+            stops.sort(function (a, b) {return a.number - b.number;});
         } else {
             stops.sort(function (a, b) {
                 if (a.name > b.name) {
                     return 1;
-                } else if(b.name > a.name) {
-                    return -1;
-                } else {
-                    return 0;
                 }
+                if(b.name > a.name) {
+                    return -1;
+                }
+                return 0;
             });
         }
     }
 
     function getStopLocation() {
-        for (var i = 0; i < stops.length; i += 1) {
-            if (stops[i].number === stop) {
-                return stops[i].location;
-            }
+        var currentStop = stops.filter(function (s) { return s.number === stop; });
+        if(currentStop.length > 0) {
+            return currentStop.location;
         }
         return false;
     }
