@@ -18,14 +18,17 @@ def callRTPI(params, param_symbol, url)
 end
 
 get '/bus/stop/:number' do
+	response['Access-Control-Allow-Origin'] =  '*'#Not in production
 	callRTPI(params, :stopid, "http://www.dublinked.ie/cgi-bin/rtpi/realtimebusinformation")
 end
 
 get '/bus/route/:number' do
+	response['Access-Control-Allow-Origin'] =  '*'#Not in production
 	callRTPI(params, :routeid, "http://www.dublinked.ie/cgi-bin/rtpi/routeinformation")
 end
 
 get '/location/stop/:number' do
+	response['Access-Control-Allow-Origin'] =  '*'#Not in production
 	callRTPI(params, :stopid, "http://www.dublinked.ie/cgi-bin/rtpi/busstopinformation")
 end
 
