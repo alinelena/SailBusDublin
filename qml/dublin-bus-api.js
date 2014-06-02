@@ -29,8 +29,7 @@ var api = (function () {
     }
 
     function getStopData(number, callback, errorCallback) {
-        networkCall(apiBase + "/bus/stop/" + number,
-        function (response) {
+        networkCall(apiBase + "/bus/stop/" + number, function (response) {
             var responseJSON = JSON.parse(response),
                 buses = [],
                 i = 0;
@@ -51,8 +50,7 @@ var api = (function () {
     }
 
     function getStopLoc(number, callback, errorCallback) {
-        networkCall(apiBase + "/location/stop/" + number,
-        function (response) {
+        networkCall(apiBase + "/location/stop/" + number, function (response) {
             var responseJSON = JSON.parse(response),
                 stopInfo;
             console.log(responseJSON.errorcode);
@@ -69,23 +67,23 @@ var api = (function () {
 
     function getRouteData(number, callback, errorCallback) {
         if(!routeCache[number]) {
-        networkCall(apiBase + "/bus/route/" + number,
-        function (response) {
-            var responseJSON = JSON.parse(response),
-                stops = [];
-            console.log(responseJSON.errorcode);
-            if(responseJSON.errorcode === "0") {
-                responseJSON.results.forEach(function (el) {
-                    el.stops.forEach(function (el) {
-                        stops.push({"number":el.stopid,"name":el.shortname,"location": el.latitude + "," + el.longitude});
+            networkCall(apiBase + "/bus/route/" + number, function (response) {
+                var responseJSON = JSON.parse(response),
+                    stops = [];
+                console.log(responseJSON.errorcode);
+                if(responseJSON.errorcode === "0") {
+                    responseJSON.results.forEach(function (el) {
+                        el.stops.forEach(function (el) {
+                            stops.push({"number":el.stopid,"name":el.shortname,
+                                "location": el.latitude + "," + el.longitude});
+                        });
                     });
-                });
-                routeCache[number] = stops;
-                callback(stops);
-            } else {
-                errorCallback(responseJSON.errormessage);
-            }
-        }, errorCallback);
+                    routeCache[number] = stops;
+                    callback(stops);
+                } else {
+                    errorCallback(responseJSON.errormessage);
+                }
+            }, errorCallback);
         } else {
             callback(routeCache[number]);
         }

@@ -14,10 +14,9 @@ Real Time Information App for Dublin bus for the Sailfish Operating System on th
 #### Note for anyone who wants to contribute:
 
 * Use the Google Style Guide for JS
-* If you change the JS make it JSLint compliant:
-	* You can have the messy whitespace flag enabled but be reasonable i.e. tabbing must make sense and use 4 spaces instead of tabs
-	* You should also have the browser flag enabled (may add directives in for this)
-* Once there is unit tests run them and make sure they pass before making a pull request
+* If you change the JS make it JSLint compliant 
+	* If your adding more directives unless it's something like a global to access a qunit function. Ask first
+* Make sure the unit tests pass before sending a pull request
 
 #### License:
 
