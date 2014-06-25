@@ -12,6 +12,6 @@ if [ -n "$JSLINTFAILED" ]; then
 fi
 ruby ../sinatra-bus.rb -o 0.0.0.0 &
 sleep 3
-firefox test.html
+firefox test.html?coverage=true
 sleep 10
 kill $(ps aux | grep sinatra | grep -P -o "\d+" | head -1)

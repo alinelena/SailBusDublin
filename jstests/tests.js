@@ -1,4 +1,4 @@
-/*global test:false, asyncTest:false, start:false, expect:false, ok:false, module:false, api:false*/
+/*global test:false, asyncTest:false, start:false, expect:false, ok:false, module:false, api:false, state:false*/
 (function () {
     'use strict';
     module("Dublin Bus API");
@@ -92,6 +92,65 @@
             start();
         }, function () {
             ok(true, "Error function was called correctly");
+            start();
+        });
+    });
+
+    module("State");
+
+    asyncTest("Open route", function () {
+        var route = 123;
+        state.openRoute(route, function () {
+            ok(state.getCurrentRoute() === route, "current route number should be the last inputted");
+            //Not guaranteed until backend mocked up properly 
+            ok(state.getNumberOfStops() === 91, "should have correct number of stops");
+            ok(state.getNthStopOnRouteString(0) === "6057 - Kilnamanagh Rd", "should have correct stop string");
+            start();
+        }, function () {
+            ok(false, "Issue occurred check the backend is working if so it's an issue with the js");
+            start();
+        });
+    });
+
+    asyncTest("Sort by number", function () {
+        var route = 123;
+        state.openRoute(route, function () {
+            state.sortRoute(true);
+            //Not guaranteed until backend mocked up properly 
+            ok(state.getNthStopOnRouteString(0) !== "6057 - Kilnamanagh Rd", "shouldn't be the original stop string");
+            ok(state.getNthStopOnRouteString(0) === "272 - O'Connell St");
+            start();
+        }, function () {
+            ok(false, "Issue occurred check the backend is working if so it's an issue with the js");
+            start();
+        });
+    });
+
+    asyncTest("Sort by place", function () {
+        var route = 123;
+        state.openRoute(route, function () {
+            state.sortRoute(false);
+            //Not guaranteed until backend mocked up properly 
+            ok(state.getNthStopOnRouteString(0) !== "6057 - Kilnamanagh Rd", "shouldn't be the original stop string");
+            ok(state.getNthStopOnRouteString(0) !== "272 - O'Connell St", "shouldn't be the stop string for number sorting");
+            ok(state.getNthStopOnRouteString(0) !== "501 - Ballybough Rd");
+            start();
+        }, function () {
+            ok(false, "Issue occurred check the backend is working if so it's an issue with the js");
+            start();
+        });
+    });
+
+    asyncTest("Open Stop", function () {
+        var stop = 1998;
+        state.openStop(stop, function () {
+            ok(state.getCurrentStop() === stop, "current stop number should be the last inputted");
+            //Not guaranteed until backend mocked up properly 
+            var firstBus = state.getBusString(0);
+            ok(firstBus.match(/\d+\s-\s(\w|\s|\d)+\s-\s((Due)|\d+\s+min)/)[0] === firstBus, "should have a correct bus tring for the first bus");
+            start();
+        }, function () {
+            ok(false, "Issue occurred check the backend is working if so it's an issue with the js");
             start();
         });
     });
