@@ -17,6 +17,11 @@ Real Time Information App for Dublin bus for the Sailfish Operating System on th
 * If you change the JS make it JSLint compliant 
 	* If your adding more directives unless it's something like a global to access a qunit function. Ask first
 * Make sure the unit tests pass before sending a pull request
+    * To run the unit tests:
+
+    `cd jstests/`<br/>
+    `./test.sh`<br/>
+    `#This will start a sintra server & open firefox to run qunit and blanket`
 
 #### License:
 
