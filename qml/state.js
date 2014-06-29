@@ -89,7 +89,7 @@ var state = (function() {
     function getStopLocation() {
         var currentStop = stops.filter(function (s) { return s.number === stop; });
         if(currentStop.length > 0) {
-            return currentStop.location;
+            return currentStop[0].location;
         }
         return false;
     }

@@ -1,4 +1,4 @@
-/*global test:false, asyncTest:false, start:false, expect:false, ok:false, module:false, api:false, state:false*/
+/*global test:false, asyncTest:false, start:false, expect:false, ok:false, module:false, api:false, state:false, console:false*/
 (function () {
     'use strict';
     module("Dublin Bus API");
@@ -149,6 +149,26 @@
             var firstBus = state.getBusString(0);
             ok(firstBus.match(/\d+\s-\s(\w|\s|\d)+\s-\s((Due)|\d+\s+min)/)[0] === firstBus, "should have a correct bus tring for the first bus");
             start();
+        }, function () {
+            ok(false, "Issue occurred check the backend is working if so it's an issue with the js");
+            start();
+        });
+    });
+
+    asyncTest("Open stop on route and check location", function () {
+        var route = 39;
+        state.openRoute(route, function () {
+            ok(state.getCurrentRoute() === route, "current route number should be the last inputted");
+            //Not guaranteed until backend mocked up properly 
+            state.openStopOnRoute(0, function () {
+                var loc = state.getStopLocation();
+                console.log(loc);
+                ok(loc === "53.332997,-6.247035", "Should have a the right location");
+                start();
+            }, function () {
+                ok(false, "Issue occurred check the backend is working if so it's an issue with the js");
+                start();
+            });
         }, function () {
             ok(false, "Issue occurred check the backend is working if so it's an issue with the js");
             start();
