@@ -18,7 +18,6 @@ var state = (function() {
         stop, stopData, routeNumber;
 
     function openRoute(number, changePageCallback, error) {
-        console.log("openRoute");
         routeNumber = number;
         DublinBus.api.getRouteData(number, function (busStops) {
             stops = busStops;
@@ -35,10 +34,8 @@ var state = (function() {
     }
 
     function openStop(number, changePageCallback, error) {
-        console.log("openStop");
         stop = number;
         DublinBus.api.getStopData(number, function (buses) {
-            console.log("openStop - success");
             stopData = buses;
             changePageCallback();
         }, error);

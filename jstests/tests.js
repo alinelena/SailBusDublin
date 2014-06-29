@@ -162,7 +162,6 @@
             //Not guaranteed until backend mocked up properly 
             state.openStopOnRoute(0, function () {
                 var loc = state.getStopLocation();
-                console.log(loc);
                 ok(loc === "53.332997,-6.247035", "Should have a the right location");
                 start();
             }, function () {

@@ -33,7 +33,6 @@ var api = (function () {
             var responseJSON = JSON.parse(response),
                 buses = [],
                 i = 0;
-            console.log(responseJSON.errorcode);
             if(responseJSON.errorcode === "0") {
                 for(i = 0; i< responseJSON.results.length; i+=1) {
                     buses.push({
@@ -53,7 +52,6 @@ var api = (function () {
         networkCall(apiBase + "/location/stop/" + number, function (response) {
             var responseJSON = JSON.parse(response),
                 stopInfo;
-            console.log(responseJSON.errorcode);
             if(responseJSON.errorcode === "0") {
                 if(responseJSON.results && responseJSON.results.length > 0) {
                     stopInfo = responseJSON.results[0];
@@ -70,7 +68,6 @@ var api = (function () {
             networkCall(apiBase + "/bus/route/" + number, function (response) {
                 var responseJSON = JSON.parse(response),
                     stops = [];
-                console.log(responseJSON.errorcode);
                 if(responseJSON.errorcode === "0") {
                     responseJSON.results.forEach(function (el) {
                         el.stops.forEach(function (el) {
