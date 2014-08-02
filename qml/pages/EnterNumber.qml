@@ -41,7 +41,6 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
-
         PullDownMenu {
             MenuItem {
                 text: "Settings"
@@ -60,7 +59,6 @@ Page {
             MenuItem {
                 text: "Open Route"
                 onClicked: {
-                    console.log(_serverURL);
                     page.loading = true;
                     StateLogic.state.openRoute(routenumber.text.toUpperCase().trim(), successRoute, error);
                 }

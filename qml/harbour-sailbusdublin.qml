@@ -10,10 +10,12 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
+import harbour.SailBusDublin 1.0 
 
 ApplicationWindow
 {
-    property string _serverURL: ""
+    property string _serverURL:  SailBusDublin.getSetting("RTPIserver", "")
+    
     initialPage: Component { EnterNumber { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
 }

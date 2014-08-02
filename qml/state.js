@@ -16,13 +16,12 @@ var state = (function() {
     "use strict";
     var stops = [],
         stop, stopData, routeNumber;
-
-    function openRoute(number, changePageCallback, error) {
+    function openRoute(number,changePageCallback, uri,error) {
         routeNumber = number;
         DublinBus.api.getRouteData(number, function (busStops) {
             stops = busStops;
             changePageCallback();
-        }, error);
+        }, uri,error);
     }
 
     function getNumberOfStops() {
@@ -33,16 +32,16 @@ var state = (function() {
         return stops[index].number + " - " + stops[index].name;
     }
 
-    function openStop(number, changePageCallback, error) {
+    function openStop(number, changePageCallback, uri,error) {
         stop = number;
         DublinBus.api.getStopData(number, function (buses) {
             stopData = buses;
             changePageCallback();
-        }, error);
+        }, uri,error);
     }
 
-    function openStopOnRoute(index, changePageCallback, error) {
-        openStop(stops[index].number, changePageCallback, error);
+    function openStopOnRoute(index, changePageCallback, uri,error) {
+        openStop(stops[index].number, changePageCallback,uri,error);
     }
 
     function getCurrentRoute() {

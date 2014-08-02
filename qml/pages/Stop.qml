@@ -30,7 +30,7 @@ Page {
                     Qt.dublinBusState.openStop(Qt.dublinBusState.getCurrentStop(), function () {
                         page.loading = false;
                         pageStack.replace(Qt.resolvedUrl("Stop.qml"));
-                    }, function() {
+                    },  function() {
                         page.loading = false;
                         console.log("Error");
                     });
