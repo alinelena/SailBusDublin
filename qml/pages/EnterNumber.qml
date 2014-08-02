@@ -44,6 +44,13 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: "Settings"
+                onClicked: {
+                    page.loading = false;
+                    pageStack.push(Qt.resolvedUrl("Settings.qml"));
+                }
+            }
+            MenuItem {
                 text: "Open Stop"
                 onClicked: {
                     page.loading = true;
@@ -57,6 +64,7 @@ Page {
                     StateLogic.state.openRoute(routenumber.text.toUpperCase().trim(), successRoute, error);
                 }
             }
+            
         }
 
         contentHeight: column.height

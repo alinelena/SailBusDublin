@@ -13,6 +13,7 @@ import "pages"
 
 ApplicationWindow
 {
+    property string _serverURL: ""
     initialPage: Component { EnterNumber { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
 }

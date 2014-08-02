@@ -11,7 +11,8 @@ TARGET = harbour-sailbusdublin
 CONFIG += sailfishapp
 
 SOURCES += \
-    src/harbour-sailbusdublin.cpp
+    src/harbour-sailbusdublin.cpp \
+    src/sailbusdublin.cpp
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
@@ -20,9 +21,12 @@ OTHER_FILES += \
     qml/pages/EnterNumber.qml \
     qml/pages/Route.qml \
     qml/pages/Stop.qml \
+    qml/pages/Settings.qml \
     rpm/harbour-sailbusdublin.yaml \
     rpm/harbour-sailbusdublin.spec \
     harbour-sailbusdublin.desktop \
     harbour-sailbusdublin.png \
     qml/harbour-sailbusdublin.qml
+HEADERS += \
+    src/sailbusdublin.h
 
