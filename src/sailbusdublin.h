@@ -13,7 +13,7 @@ public:
 //    Q_INVOKABLE bool validateUrl(QString url);
 
 private:
-    QSettings settings;
+    QSettings *settings;
 
 signals:
 

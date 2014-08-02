@@ -29,7 +29,7 @@ Dialog {
                 placeholderText: "http://www.domain.com:port/"
                 anchors.right: parent.right
                 anchors.left: parent.left
-                inputMethodHints: ImhUrlCharactersOnly 
+                inputMethodHints: Qt.ImhUrlCharactersOnly 
             }
         }
 
@@ -46,6 +46,6 @@ Dialog {
     }
 
     function saveSettings() {
-        SailBusDublin.setSetting("RTPIserver", _serverURL,trim());
+        SailBusDublin.setSetting("RTPIserver", _serverURL.trim());
     }
 }
