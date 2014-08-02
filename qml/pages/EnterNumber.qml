@@ -67,7 +67,7 @@ Page {
             PageHeader {
                 title: "Enter Route or Stop Number"
             }
-            TextArea {
+            SearchField {
                 id: routenumber
                 width: parent.width
                 inputMethodHints: Qt.ImhPreferNumbers
