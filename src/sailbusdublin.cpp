@@ -1,5 +1,5 @@
 #include "sailbusdublin.h"
-#include <QUrl>
+//#include <QUrl>
 
 SailBusDublin::SailBusDublin(QObject *parent) :
     QObject(parent)
@@ -20,4 +20,5 @@ void SailBusDublin::setSetting(const QString &key, const QVariant &value){
 QVariant SailBusDublin::getSetting(const QString &key, const QVariant &defaultValue){
     this->settings->sync();
     QVariant value = this->settings->value(key, defaultValue);
+    return value;
 }

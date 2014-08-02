@@ -10,10 +10,10 @@ class SailBusDublin : public QObject
 
 public:
     explicit SailBusDublin(QObject *parent = 0);
-    Q_INVOKABLE bool validateUrl(QString url);
+//    Q_INVOKABLE bool validateUrl(QString url);
 
 private:
-    QSettings *_settings;
+    QSettings *settings;
 
 signals:
 

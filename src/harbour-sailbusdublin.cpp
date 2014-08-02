@@ -33,6 +33,20 @@
 #endif
 
 #include <sailfishapp.h>
+#include "sailbusdublin.h"
+
+static QObject *sailBusDublinSingleton(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+
+    static sailBusDublin *sailBusDublinSing = NULL;
+
+    if (!sailBusDublinSing)
+        sailBusDublinSing = new sailBusDublin();
+
+    return sailBusDublinSing;
+}
 
 
 int main(int argc, char *argv[])
@@ -45,6 +59,7 @@ int main(int argc, char *argv[])
     //   - SailfishApp::pathTo(QString) to get a QUrl to a resource file
     //
     // To display the view, call "show()" (will show fullscreen on device).
+    qmlRegisterSingletonType<sailBusDublin>("harbour.sailBusDublin", 1, 0, "SailBusDublin",sailBusDublinSingleton);
 
     return SailfishApp::main(argc, argv);
 }
