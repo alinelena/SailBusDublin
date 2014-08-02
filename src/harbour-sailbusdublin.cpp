@@ -28,15 +28,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifdef QT_QML_DEBUG
-#include <QtQuick>
-#endif
 
+#include <QtQuick>
 #include <sailfishapp.h>
 #include "sailbusdublin.h"
 
-static QObject *sailBusDublinSingleton(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
+static QObject *sailBusDublinSingleton(QQmlEngine *engine, QJSEngine *scriptEngine){
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
 
