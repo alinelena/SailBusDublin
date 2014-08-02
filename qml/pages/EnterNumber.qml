@@ -59,6 +59,7 @@ Page {
             }
             MenuItem {
                 text: "Open Route"
+                console.log(_serverURL);
                 onClicked: {
                     page.loading = true;
                     StateLogic.state.openRoute(routenumber.text.toUpperCase().trim(), successRoute, error);

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import harbour.SailBusDublin 1.0 
 
 Dialog {
     id: settingsDialog
@@ -18,17 +19,17 @@ Dialog {
             }
             Label {
                 x: Theme.paddingLarge
-                text: "rtpi server:"
+                text: "RTPI server:"
                 color: Theme.secondaryHighlightColor
                 font.pixelSize: Theme.fontSizeLarge
             }
             TextField {
                 id: rtpiURL
-                x: Theme.paddingLarge
-                placeholderText: "http://www.yourdomain.com:port/"
+                x: Theme.paddingMedium
+                placeholderText: "http://www.domain.com:port/"
                 anchors.right: parent.right
                 anchors.left: parent.left
-                inputMethodHints: Qt.ImhNoPredictiveText
+                inputMethodHints: ImhUrlCharactersOnly 
             }
         }
 
@@ -37,7 +38,6 @@ Dialog {
     }
 
     function loadSettings() {
-        console.log("Loading Settings");
         _serverURL = SailBusDublin.getSetting("RTPIserver", "");
 
         if ( _serverURL!= "") {
@@ -46,7 +46,6 @@ Dialog {
     }
 
     function saveSettings() {
-        console.log("Saving Settings");
-        SailBusDublin.setSetting("RTPIserver", _serverURL);
+        SailBusDublin.setSetting("RTPIserver", _serverURL,trim());
     }
 }
