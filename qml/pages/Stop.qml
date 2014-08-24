@@ -46,6 +46,12 @@ Page {
                 }
                 visible: Qt.dublinBusState.stopOpenedByRoute
             }
+            MenuItem{
+                text: "Add to Favourites"
+                onClicked: {
+                   console.log("add current stop "+Qt.dublinBusState.getCurrentStop())
+                }
+            }
         }
         model: Qt.dublinBusState.getStopData().length
         anchors.fill: parent

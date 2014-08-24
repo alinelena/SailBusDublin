@@ -1,5 +1,6 @@
 #include "sailbusdublin.h"
 //#include <QUrl>
+#include <iostream>
 
 SailBusDublin::SailBusDublin(QObject *parent) :
     QObject(parent)
@@ -28,8 +29,44 @@ void SailBusDublin::setSettingList(const QString &key, const QVector<QString> &a
     this->settings->sync();
 }
 
-void SailBusDublin::setSettingListi(const QString &key, const int &i, const QString& value){
+void SailBusDublin::setSettingInList(const QString &key, const QString& value){
+    QVector<QString> tmp;
+    int n;
+    bool alreadyIn = false;
+    this->getSettingList(key, n, tmp);
+    this->settings->beginWriteArray(key);
+   
+    for (int i = 0; i < n; ++i) {
+      this->settings->setArrayIndex(i);
+      this->settings->setValue("fav", tmp.at(i));
+      if (tmp.at(i)==value) alreadyIn= true;
+    }
+    if (!alreadyIn) {
+      this->settings->setArrayIndex(n);
+      this->settings->setValue("fav", value);
+    }
+    this->settings->endArray();
+    this->settings->sync();
+}
 
+void SailBusDublin::removeSettingIthList(const QString &key, const int& j){
+    QVector<QString> tmp;
+    int n;
+    this->getSettingList(key, n, tmp);
+    this->settings->remove(key);
+    this->settings->beginWriteArray(key);
+    std::cout<<"in remove: "<<n<<" "<<j<<std::endl;
+    for (int i = 0; i < n; ++i) {
+      if ( i < j ) {
+        this->settings->setArrayIndex(i);
+      }
+      if ( i > j ) {
+        this->settings->setArrayIndex(i-1);
+      }
+      this->settings->setValue("fav", tmp.at(i));
+    }
+    this->settings->endArray();
+    this->settings->sync();
 }
 
 QVariant SailBusDublin::getSetting(const QString &key, const QVariant &defaultValue){
