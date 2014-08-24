@@ -79,6 +79,70 @@ Page {
                 width: parent.width
                 inputMethodHints: Qt.ImhPreferNumbers
             }
+            SilicaListView {
+              id: favourites
+              width: page.width 
+              height: page.height/2
+              header: PageHeader{
+                title: "Favourite Stops"
+              }
+              anchors.fill: routenumber.bottom
+              spacing: Theme.paddingSmall
+              model: 10 
+              property Item contextMenu
+              delegate: Item {
+                id: myFavItem
+                property bool menuOpen: favourites.contextMenu != null && favourites.contextMenu.parent === myFavItem
+
+                 width: ListView.view.width
+                 height: menuOpen ? favourites.contextMenu.height + delFav.height : delFav.height
+                 BackgroundItem {
+                   id: delFav
+                   width:parent.width
+                   Label { 
+                     x: Theme.paddingLarge
+                     text: { favourites.getFavStop(index) }
+                     anchors.verticalCenter: parent.verticalCenter
+                     color: delFav.highlighted ? Theme.highlightColor : Theme.primaryColor
+                   }
+                   onClicked: {
+                    page.loading = true
+                    StateLogic.state.openStop(favourites.getFavStop(index), successStop, error)
+                  }
+                  onPressAndHold: {
+                    if (!favourites.contextMenu) {
+                      favourites.contextMenu = contextMenuComponent.createObject(favourites)
+                    }
+                    favourites.contextMenu.show(myFavItem)
+                   }
+                }
+              }
+              VerticalScrollDecorator {}
+              function getFavStop(index) {
+                if (index==0) {
+                  return 903;
+                } else {
+                  return index;   
+                }   
+              }
+              RemorsePopup { 
+                id: remorse 
+              }
+              function remove(i) {
+                remorse.execute(qsTr("Removing"), function() {
+                console.log("removeFavStop("+i+")")
+              });
+              }
+              Component {
+                id: contextMenuComponent
+                ContextMenu {
+                  MenuItem {
+                    text: "Remove"
+                    onClicked: favourites.remove(favourites.currentIndex);
+                  }
+                }
+             }
+           }
         }
     }
 }

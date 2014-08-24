@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QString>
+#include <QVector>
 
 class SailBusDublin : public QObject
 {
@@ -19,7 +21,9 @@ signals:
 
 public slots:
     Q_INVOKABLE void setSetting(const QString &key, const QVariant &value);
+    Q_INVOKABLE void setSettingList(const QString &key, const QVector<QString> &array);
     Q_INVOKABLE QVariant getSetting(const QString &key, const QVariant &defaultValue = QVariant());
+    Q_INVOKABLE void getSettingList(const QString &key, int &n, QVector<QString> &array);
 
 };
 
