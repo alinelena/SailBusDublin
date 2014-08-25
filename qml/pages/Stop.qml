@@ -9,6 +9,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import harbour.SailBusDublin 1.0 
 
 Page {
     id: page
@@ -50,6 +51,7 @@ Page {
                 text: "Add to Favourites"
                 onClicked: {
                    console.log("add current stop "+Qt.dublinBusState.getCurrentStop())
+                   SailBusDublin.setSettingInList("favourites",Qt.dublinBusState.getCurrentStop())
                 }
             }
         }

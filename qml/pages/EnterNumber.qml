@@ -10,6 +10,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../state.js" as StateLogic
+import harbour.SailBusDublin 1.0 
 
 Page {
     id: page
@@ -86,9 +87,8 @@ Page {
               header: PageHeader{
                 title: "Favourite Stops"
               }
-              anchors.fill: routenumber.bottom
               spacing: Theme.paddingSmall
-              model: 10 
+              model:  SailBusDublin.getSettingNList("favourites")
               property Item contextMenu
               delegate: Item {
                 id: myFavItem
@@ -101,16 +101,17 @@ Page {
                    width:parent.width
                    Label { 
                      x: Theme.paddingLarge
-                     text: { favourites.getFavStop(index) }
+                     text: { SailBusDublin.getSettingIthList("favourites",index) }
                      anchors.verticalCenter: parent.verticalCenter
                      color: delFav.highlighted ? Theme.highlightColor : Theme.primaryColor
                    }
                    onClicked: {
                     page.loading = true
-                    StateLogic.state.openStop(favourites.getFavStop(index), successStop, error)
+                    StateLogic.state.openStop(SailBusDublin.getSettingIthList("favourites",index), successStop, error)
                   }
                   onPressAndHold: {
                     if (!favourites.contextMenu) {
+                      favourites.currentIndex = index
                       favourites.contextMenu = contextMenuComponent.createObject(favourites)
                     }
                     favourites.contextMenu.show(myFavItem)
@@ -118,19 +119,12 @@ Page {
                 }
               }
               VerticalScrollDecorator {}
-              function getFavStop(index) {
-                if (index==0) {
-                  return 903;
-                } else {
-                  return index;   
-                }   
-              }
               RemorsePopup { 
                 id: remorse 
               }
               function remove(i) {
                 remorse.execute(qsTr("Removing"), function() {
-                console.log("removeFavStop("+i+")")
+                SailBusDublin.removeSettingIthList("favourites",i)
               });
               }
               Component {
@@ -138,11 +132,13 @@ Page {
                 ContextMenu {
                   MenuItem {
                     text: "Remove"
-                    onClicked: favourites.remove(favourites.currentIndex);
+                    onClicked: {
+                      favourites.remove(favourites.currentIndex);
+                    }
                   }
                 }
              }
-           }
+          }
         }
     }
 }

@@ -55,7 +55,6 @@ void SailBusDublin::removeSettingIthList(const QString &key, const int& j){
     this->getSettingList(key, n, tmp);
     this->settings->remove(key);
     this->settings->beginWriteArray(key);
-    std::cout<<"in remove: "<<n<<" "<<j<<std::endl;
     for (int i = 0; i < n; ++i) {
       if ( i < j ) {
         this->settings->setArrayIndex(i);
